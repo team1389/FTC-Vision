@@ -44,6 +44,7 @@ cap = cv2.VideoCapture(0)
 count = 0
 i = 0
 
+
 #Loop
 while(True):
 	error = 0
@@ -82,8 +83,15 @@ while(True):
 
 	# Blurring operation helps forthcoming contours work better
 	img= cv2.blur(img, (3,3))
+	
+	circles = cv2.HoughCircles(img, cv2.HOUGH_GRADIENT, 1, 20, param1=75, param2=100, minRadius=0, maxRadius=0)
+	circles = np.uint16(np.around(circles))
+
+	for i in circles[0, :]:
+		cv2.circle(img, (i[0], i[1]), i[2], (0,255,0), 2)
+		cv2.circle(img, (i[0], i[1]), 2, (0,0,255), 3)
 	    
-	# Find contours
+	"""# Find contours
 	(_, cnts, _) = cv2.findContours(img.copy(), cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)    
 
 	# Makes the first contour the largest
@@ -108,6 +116,7 @@ while(True):
 		cy1 = int(M1['m01']/M1['m00'])
 		cx2 = int(M2['m10']/M2['m00'])
 		cy2 = int(M2['m01']/M2['m00'])
+	
 
 		#draw center of cube on image in red
 		cv2.circle(img,(cx1,cy1), 50, (0,0,255), 1)
@@ -115,7 +124,7 @@ while(True):
 
 		#display center of image on img in white
 		centX = int(width/2)
-		centY = int(height/2)
+		centY = int(height/2)"""
 
 
 	cv2.imshow('frame', img)
